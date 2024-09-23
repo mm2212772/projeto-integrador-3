@@ -2,8 +2,8 @@
 from django.shortcuts import render
 
 
-def home(request):
-    return render(request, "home.html", context={"guia_atual": "home"})
+def inicial(request):
+    return render(request, "inicial.html", context={"guia_atual": "inicial"})
 
 
 def leitores(request):
