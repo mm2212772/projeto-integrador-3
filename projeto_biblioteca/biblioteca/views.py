@@ -2,51 +2,51 @@
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
-from . import forms
+from . import forms, models
 
 
 def inicial(request):
     return render(request, "inicial.html", context={"guia_atual": "inicial"})
 
 
-# def leitores(request):
-#     if request.method == "GET":
-#         leitores = models.Leitor.objects.all()
-#     else:
-#         pesquisa = request.POST["termos_pesquisa"]
-#         leitores = models.Leitor.objects.raw(
-#             f" select * from biblioteca_leitor where nome like '%{pesquisa}%'"
-#         )
-#     context = {
-#         "guia_atual": "leitores",
-#         "leitores": leitores,
-#     }
-#     return render(request, "leitores.html", context)
-
-
 def livros(request):
-    return render(request, "livros.html", context={"guia_atual": "livros"})
+    if request.method == "GET":
+        livros = models.Livro.objects.all()
+    else:
+        pesquisa = request.POST["termos_pesquisa"]
+        livros = models.Livro.objects.raw(
+            f" select * from biblioteca_livro where nome like '%{pesquisa}%'"
+        )
+    context = {"guia_atual": "Livros", "livros": livros}
+    return render(request, "livros.html", context)
+
+
+def detalhes(request, livro_id):
+    livro = get_object_or_404(models.Livro, id=livro_id)
+    exemplares = models.Exemplar.objects.filter(livro=livro)
+    autores = livro.livro_tem_autor_set.select_related("autor")
+    context = {
+        "guia_atual": "Livros",
+        "livro": livro,
+        "exemplares": exemplares,
+        "autores": autores,
+    }
+    return render(request, "detalhes.html", context)
 
 
 @login_required(login_url="biblioteca:login")
-def devolucoes(request):
-    return render(request, "devolucoes.html", context={"guia_atual": "devolucoes"})
-
-
-# def adicionar_leitor(request):
-#     leitor = models.Leitor(
-#         nome=request.POST["nome_leitor"],
-#         data_nascimento=request.POST["data_nascimento_leitor"],
-#     )
-#     leitor.save()
-#     return redirect("/leitores")
+def emprestimos(request):
+    emprestimos = models.Emprestimo.objects.filter(leitor=request.user)
+    context = {"guia_atual": "Empréstimos", "emprestimos": emprestimos}
+    return render(request, "emprestimos.html", context)
 
 
 def register(request):
     form = forms.RegisterForm()
     context = {
+        "guia_atual": "Cadastrar",
         "form": form,
     }
 
@@ -66,12 +66,16 @@ def user_update(request):
     form = forms.RegisterUpdateForm(instance=request.user)
 
     if request.method != "POST":
-        return render(request, "user_update.html", {"form": form})
+        return render(
+            request, "user_update.html", {"guia_atual": "Perfil", "form": form}
+        )
 
     form = forms.RegisterUpdateForm(data=request.POST, instance=request.user)
 
     if not form.is_valid():
-        return render(request, "user_update.html", {"form": form})
+        return render(
+            request, "user_update.html", {"guia_atual": "Perfil", "form": form}
+        )
 
     form.save()
     return redirect("biblioteca:user_update")
@@ -90,7 +94,7 @@ def login_view(request):
         else:
             messages.error(request, "Login inválido")
 
-    context = {"form": form}
+    context = {"form": form, "guia_atual": "Login"}
     return render(request, "login.html", context)
 
 
