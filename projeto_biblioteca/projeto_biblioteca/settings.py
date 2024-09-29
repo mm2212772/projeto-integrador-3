@@ -124,6 +124,8 @@ STATICFILES_DIRS = (BASE_DIR / "base_static",)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+DATE_INPUT_FORMATS = ["%d/%m/%Y"]
+
 try:
     from projeto_biblioteca.local_settings import *
 except ImportError:

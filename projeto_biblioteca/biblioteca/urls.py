@@ -5,9 +5,13 @@ from . import views
 app_name = "biblioteca"
 
 urlpatterns = [
-    path("", views.inicial),
-    path("leitores", views.leitores),
-    path("livros", views.livros),
-    path("sacola", views.sacola),
-    path("devolucoes", views.devolucoes),
+    path("", views.inicial, name="inicial"),
+    # path("leitores", views.leitores, name="leitores"),
+    # path("leitores/adicionar", views.adicionar_leitor, name="adicionar_leitor"),
+    path("livros", views.livros, name="livros"),
+    path("devolucoes", views.devolucoes, name="devolucoes"),
+    path("user/create/", views.register, name="register"),
+    path("user/login/", views.login_view, name="login"),
+    path("user/logout/", views.logout_view, name="logout"),
+    path("user/update/", views.user_update, name="user_update"),
 ]
