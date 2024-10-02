@@ -34,7 +34,7 @@ class RegisterForm(UserCreationForm):
 
         if User.objects.filter(email=email).exists():
             self.add_error(
-                "email", ValidationError("Já existe este e-mail", code="invalid")
+                "email", ValidationError("E-mail já cadastrado. Use outro.", code="invalid")
             )
 
         return email
@@ -45,15 +45,14 @@ class RegisterUpdateForm(forms.ModelForm):
         min_length=2,
         max_length=30,
         required=True,
-        help_text="Required.",
-        error_messages={"min_length": "Please, add more than 2 letters."},
+        error_messages={"min_length": "Adicione mais 2 letras."},
     )
     last_name = forms.CharField(
-        min_length=2, max_length=30, required=True, help_text="Required."
+        min_length=2, max_length=30, required=True
     )
 
     password1 = forms.CharField(
-        label="Password",
+        label="Senha",
         strip=False,
         widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
         help_text=password_validation.password_validators_help_text_html(),
@@ -61,10 +60,10 @@ class RegisterUpdateForm(forms.ModelForm):
     )
 
     password2 = forms.CharField(
-        label="Password 2",
+        label="Senha 2",
         strip=False,
         widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
-        help_text="Use the same password as before.",
+        help_text="Repita a senha.",
         required=False,
     )
 
@@ -96,7 +95,7 @@ class RegisterUpdateForm(forms.ModelForm):
 
         if password1 or password2:
             if password1 != password2:
-                self.add_error("password2", ValidationError("Senhas não batem"))
+                self.add_error("password2", ValidationError("Senhas não conferem"))
 
         return super().clean()
 
@@ -107,7 +106,7 @@ class RegisterUpdateForm(forms.ModelForm):
         if current_email != email:
             if User.objects.filter(email=email).exists():
                 self.add_error(
-                    "email", ValidationError("Já existe este e-mail", code="invalid")
+                    "email", ValidationError("E-mail já cadastrado. Use outro.", code="invalid")
                 )
 
         return email

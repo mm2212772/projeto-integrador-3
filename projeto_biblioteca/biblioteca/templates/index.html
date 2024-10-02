@@ -9,19 +9,20 @@
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
               crossorigin="anonymous">
         <link rel="stylesheet" href="{% static 'global/css/style.css' %}">
-        <title>Biblioteca Escolar Digital - EE PEI José Franco Craveiro</title>
+        <title>Biblioteca Escolar Digital</title>
         <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/build/qrious.min.js"></script>
     </head>
     <body>
-        <nav class="navbar bg-body-tertiary fixed-top">
+        <nav class="navbar bg-body-tertiary fixed-top" style="padding: 0px; margin: 0px">
             <div class="container-fluid justify-content-center align-items-center"
                  style="background-color: #0d6efd">
                 <span class="navbar-brand lb-1 h3 text-light">
                     <img src="{% static '/logo_craveiro.png' %}"
                          alt="Logo Escola Craveiro"
-                         height="50"
-                         style="margin-right: 10px">
-                Biblioteca Escolar Digital - EE PEI José Franco Craveiro</span>
+                         height="auto"
+			 width="100%"
+                         style="margin-right: 10px; max-width: 50px">
+		    Biblioteca Escolar Digital</span>
             </div>
             <div class="container-fluid justify-content-center align-items-center">
                 <ul class="nav nav-tabs">
@@ -29,11 +30,11 @@
                         {% if guia_atual == 'inicial' %}
                             <a class="nav-link active"
                                aria-current="page"
-                               href="{% url 'biblioteca:inicial' %}">Página Inicial</a>
+                               href="{% url 'biblioteca:inicial' %}">Início</a>
                         {% else %}
                             <a class="nav-link"
                                aria-current="page"
-                               href="{% url 'biblioteca:inicial' %}">Página Inicial</a>
+                               href="{% url 'biblioteca:inicial' %}">Início</a>
                         {% endif %}
                     </li>
                     <li class="nav-item">
