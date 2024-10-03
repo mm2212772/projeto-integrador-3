@@ -6,6 +6,46 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from . import forms, models
 
+from django.contrib.auth.models import User
+from rest_framework import permissions, viewsets
+
+from . import serializers
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = serializers.UserSerializer
+    permission_classes = [permissions.IsAdminUser]
+
+class BookViewSet(viewsets.ModelViewSet):
+    queryset = models.Livro.objects.all().order_by('id')
+    serializer_class = serializers.BookSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class AuthorViewSet(viewsets.ModelViewSet):
+    queryset = models.Autor.objects.all().order_by('id')
+    serializer_class = serializers.AuthorSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class DDCViewSet(viewsets.ModelViewSet):
+    queryset = models.Cdd.objects.all().order_by('id')
+    serializer_class = serializers.DDCSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class CopyViewSet(viewsets.ModelViewSet):
+    queryset = models.Exemplar.objects.all().order_by('id')
+    serializer_class = serializers.CopySerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class HasAuthorViewSet(viewsets.ModelViewSet):
+    queryset = models.LivroTemAutor.objects.all().order_by('id')
+    serializer_class = serializers.HasAuthorSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class BorrowViewSet(viewsets.ModelViewSet):
+    queryset = models.Emprestimo.objects.all().order_by('id')
+    serializer_class = serializers.BorrowSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
 
 def inicial(request):
     return render(request, "inicial.html", context={"guia_atual": "inicial"})
