@@ -1,15 +1,13 @@
-# Create your models here.
+from datetime import timedelta, date
 
-from datetime import timedelta  # Importa a biblioteca timedelta
-
-from django.contrib.auth.models import User  # type:ignore
-from django.db import models  # type:ignore
-from django.utils import timezone  # type:ignore
+from django.contrib.auth.models import User
+from django.db import models
+from django.utils import timezone
 
 
 # Função para calcular a data de devolução padrão (hoje + 7 dias)
 def get_default_return_date():
-    return timezone.now() + timedelta(days=7)
+    return date.today() + timedelta(days=7)
 
 
 class Cdd(models.Model):
@@ -83,8 +81,6 @@ class Emprestimo(models.Model):
     exemplar = models.ForeignKey(
         Exemplar, on_delete=models.SET_NULL, blank=True, null=True
     )
-    data_emprestimo = models.DateField(default=timezone.now)
-    data_devolucao = models.DateField(
-        default=get_default_return_date
-    )  # Define a data de devolução padrão
+    data_emprestimo = models.DateField(default=date.today)
+    data_devolucao = models.DateField(default=get_default_return_date)
     devolvido = models.BooleanField(default=False)
