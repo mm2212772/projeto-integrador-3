@@ -1,8 +1,7 @@
-from datetime import timedelta, date
+from datetime import date, timedelta
 
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils import timezone
 
 
 # Função para calcular a data de devolução padrão (hoje + 7 dias)
