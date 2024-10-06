@@ -29,8 +29,8 @@ ALLOWED_HOSTS = []
 
 # API
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
 }
 
 # Application definition
@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "biblioteca.apps.BibliotecaConfig",
     "rest_framework",
-    "api.apps.ApiConfig"
+    "api.apps.ApiConfig",
 ]
 
 MIDDLEWARE = [
