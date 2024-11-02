@@ -2,9 +2,11 @@
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from . import forms, models
+
 
 def inicial(request):
     return render(request, "inicial.html", context={"guia_atual": "inicial"})
@@ -15,9 +17,8 @@ def livros(request):
         livros = models.Livro.objects.all()
     else:
         pesquisa = request.POST["termos_pesquisa"]
-        livros = models.Livro.objects.raw(
-            f" select * from biblioteca_livro where nome like '%{pesquisa}%'"
-        )
+        livros = models.Livro.objects.filter(nome__icontains=pesquisa)
+
     context = {"guia_atual": "Livros", "livros": livros}
     return render(request, "livros.html", context)
 
@@ -25,12 +26,22 @@ def livros(request):
 def detalhes(request, livro_id):
     livro = get_object_or_404(models.Livro, id=livro_id)
     exemplares = models.Exemplar.objects.filter(livro=livro)
+    exemplares_disponiveis = (
+        exemplares.annotate(
+            emprestimos_ativos=Count(
+                "emprestimo", filter=Q(emprestimo__devolvido=False)
+            )
+        )
+        .filter(emprestimos_ativos=0)
+        .count()
+    )
     autores = livro.livrotemautor_set.select_related("autor")
     context = {
         "guia_atual": "Livros",
         "livro": livro,
         "exemplares": exemplares,
         "autores": autores,
+        "exemplares_disponiveis": exemplares_disponiveis,
     }
     return render(request, "detalhes.html", context)
 
