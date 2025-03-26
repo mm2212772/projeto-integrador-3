@@ -1,6 +1,6 @@
-# Projeto Integrador em Computação II
+# Projeto Integrador em Computação III
 
-Código fonte do *software* apresentado na disciplina de Projeto Integrador II
+Código fonte do *software* apresentado na disciplina de Projeto Integrador III
 para o curso de Bacharelado em Tecnologia da Informação da Universidade Virtual
 do Estado de São Paulo (UNIVESP).
 
