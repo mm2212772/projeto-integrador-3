@@ -19,7 +19,7 @@ Antes de começar, verifique se você tem os seguintes itens instalados em seu s
 2. Navegue até o diretório onde deseja clonar o repositório.
 3. Use o comando abaixo para clonar o repositório:
 ```bash
-git clone https://github.com/mm2212772/projeto-integrador-2.git
+git clone https://github.com/mm2212772/projeto-integrador-3.git
 ```
 4. Navegue para o diretório do projeto:
 
