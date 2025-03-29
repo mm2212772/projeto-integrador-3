@@ -9,8 +9,8 @@ class GerarEtiquetaPDF:
        self._valor_vertical = 10
        self._base_horizontal = 9  
        self.exemplares = exemplares
-       self._TAMANHO_FONTE = 9
-       self._TAMANHO_CORTE = 37
+       self._TAMANHO_FONTE = 11
+       self._TAMANHO_CORTE = 30
     
     def criar_pdf(self):
         # Definições do tipo papel no FPDF
@@ -36,6 +36,7 @@ class GerarEtiquetaPDF:
           # Salva o arquivo PDF
         # self.pdf.output('etiquetas.pdf')
         return bytes(self._pdf.output())
+      
     def _etiqueta_externa(self, exemplar):
         self._pdf.set_xy(self._base_horizontal, self._valor_vertical)
         # Adiciona texto com os dados do tombo
@@ -66,7 +67,10 @@ class GerarEtiquetaPDF:
                + self._corte(str(exemplar.livro.titulo), self._TAMANHO_CORTE))
       
     def _texto_interno(self, exemplar):
-       
+       tombo = exemplar.tombo
+       tombo = "Crav.2025.102931"
+       tombo1 = exemplar.tombo.split('.')[0]+"."+exemplar.tombo.split('.')[1]+"." 
+       tombo2 = exemplar.tombo.split('.')[2]
        return (str(exemplar.livro.cdd.nome)
                + '\n'
                +str(exemplar.livro.autores.first().autor.codigo_autor)            
@@ -74,9 +78,8 @@ class GerarEtiquetaPDF:
                + str(exemplar.livro.iniciais_titulo)
                + "\nex. "+ str(exemplar.numero_exemplar)
                + '\n'
-              #  + str(exemplar.tombo))     
-               + "Crav.2025.102931")     
-   
+               + tombo1+'\n'+tombo2)    
+                    
    
     def _criar_pdf(self):
        pdf = FPDF(format='A4')

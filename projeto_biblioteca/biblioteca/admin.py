@@ -56,7 +56,7 @@ class EditoraAdmin(admin.ModelAdmin):
     ordering = ("id",)
     list_per_page = 30
    
-class EmprestimoAdmin(admin.ModelAdmin):
+class EmprestimoAdmin(admin.ModelAdmin):    
     list_display = (
         "id",
         "leitor",
@@ -152,11 +152,17 @@ class ExemplarAdmin(admin.ModelAdmin):
     list_filter =  ("etiqueta_gerada",)
     actions =[gerar_pdf_etiquetas]  
     
-    def get_search_results(self, request, queryset, search_term):
+    def get_search_results(self, request, queryset, search_term):        
+        pagina_exemplar=r"/admin/biblioteca/exemplar/"
+        e_pagina_exemplar = pagina_exemplar == request.path
+        if len(search_term) == 0 and not e_pagina_exemplar:
+           return       
         # Evita que zeros à esquerda sejam removidos ao buscar
         if search_term.isdigit():
-            queryset = self.model.objects.filter(Q(id=search_term))
-        return queryset, False 
+            queryset = queryset.filter(Q(id=search_term))
+            return queryset, False
+        else:
+            return super().get_search_results(request, queryset, search_term)
        
     def save_model(self, request, obj, form, change):
         quantidade = form.cleaned_data.get("quantidade")
