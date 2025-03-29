@@ -1,7 +1,7 @@
 from datetime import date, datetime
 
 from django.contrib import admin, messages
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import path
@@ -151,6 +151,12 @@ class ExemplarAdmin(admin.ModelAdmin):
     )  
     list_filter =  ("etiqueta_gerada",)
     actions =[gerar_pdf_etiquetas]  
+    
+    def get_search_results(self, request, queryset, search_term):
+        # Evita que zeros à esquerda sejam removidos ao buscar
+        if search_term.isdigit():
+            queryset = self.model.objects.filter(Q(id=search_term))
+        return queryset, False 
        
     def save_model(self, request, obj, form, change):
         quantidade = form.cleaned_data.get("quantidade")

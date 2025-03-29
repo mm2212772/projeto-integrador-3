@@ -88,7 +88,7 @@ class Exemplar(models.Model):
         verbose_name_plural = "exemplares"
 
     def __str__(self):
-        return f"Ex. {self.numero_exemplar}: {self.livro.titulo}"
+        return f"ID {self.id} - Ex. {self.numero_exemplar} - {self.livro.titulo}"
 
     livro = models.ForeignKey(Livro, on_delete=models.SET_NULL, blank=True, null=True)
     tombo = models.CharField(max_length=45)
