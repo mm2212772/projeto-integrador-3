@@ -95,6 +95,7 @@ class Exemplar(models.Model):
     numero_exemplar = models.IntegerField(verbose_name="Número de Exemplar")
     etiqueta_gerada = models.BooleanField()
     baixa = models.BooleanField(default=False)
+    motivo_baixa = models.CharField(max_length=250, blank=True, null=True, verbose_name="Motivo da Baixa")
     
     def save(self, *args, **kwargs):       
         if not self.tombo:  # Gera apenas se não existir

@@ -65,12 +65,21 @@ class EmprestimoAdmin(admin.ModelAdmin):
         "data_devolucao",
         "devolvido",
     )
-    search_fields = ("leitor__nome", "exemplar__livro__titulo", "exemplar__numero_exemplar" )  
+    search_fields = ("leitor__nome", "exemplar__livro__titulo", "exemplar__id" )  
     autocomplete_fields = ["leitor", "exemplar"]    
     ordering = ("devolvido", "data_emprestimo")
     list_display_links = ("id", "leitor", "exemplar")
     list_editable = ("devolvido",)
     list_per_page = 30
+    
+    def get_search_results(self, request, queryset, search_term):
+        # Evita que zeros à esquerda sejam removidos ao buscar
+        if search_term.isdigit():
+            queryset = queryset.filter(Q(id=search_term) | Q(exemplar__id=search_term))
+            return queryset, True
+        else:
+            return super().get_search_results(request, queryset, search_term)
+    
     
     def get_form(self, request, obj = None, change = False, **kwargs):
         form = super().get_form(request, obj, change, **kwargs)
@@ -137,16 +146,16 @@ class EmprestimoAdmin(admin.ModelAdmin):
     
 class ExemplarAdmin(admin.ModelAdmin):
     form = forms.ExemplarAdminForm
-    list_display = ("id", "livro", "tombo", "numero_exemplar", "baixa", "etiqueta_gerada" )
+    list_display = ("id", "livro", "tombo", "numero_exemplar", "baixa", "motivo_baixa", "etiqueta_gerada" )
     list_display_links = ("id", "livro", "tombo")
-    list_editable = ("baixa","etiqueta_gerada")        
+    list_editable = ("baixa","etiqueta_gerada", "motivo_baixa")        
     search_fields = ("id", "livro__titulo","numero_exemplar")  
     ordering = ("-id",)      
     autocomplete_fields = ["livro"] 
     list_per_page = 30
     fieldsets = (
     (None, {
-        "fields": ("livro", "tombo", "numero_exemplar", "baixa", "etiqueta_gerada", "quantidade"),
+        "fields": ("livro", "tombo", "numero_exemplar", "baixa", "motivo_baixa", "etiqueta_gerada", "quantidade"),
     }),
     )  
     list_filter =  ("etiqueta_gerada",)
