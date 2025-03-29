@@ -8,12 +8,18 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="col-md-12 text-light" style="background:#0d6efd;">
-                    <h4 style="margin-bottom: 0px; padding:10px 0 10px 0">{{ livro.nome }}</h4>
+                    <h4 style="margin-bottom: 0px; padding:10px 0 10px 0">{{ livro.titulo }}</h4>
                 </div>
                 <div class="container-fluid"
                      style="margin-top: 20px;
                             background: #daf1ff;
                             padding: 20px">
+                    <p>
+                        <strong>Subtítulo:</strong> {{ livro.subtitulo }}
+                    </p>
+                    <p>
+                        <strong>ISBN:</strong> {{ livro.isbn }}
+                    </p>
                     <p>
                         <strong>Ano:</strong> {{ livro.ano }}
                     </p>
@@ -21,10 +27,13 @@
                         <strong>Edição:</strong> {{ livro.edicao }}
                     </p>
                     <p>
-                        <strong>Volume:</strong> {{ livro.volume }}
+                        <strong>CDD:</strong> {{ livro.cdd.nome }}
                     </p>
                     <p>
-                        <strong>CDD:</strong> {{ livro.cdd.nome }}
+                        <strong>Editora:</strong> {{ livro.editora.nome }}
+                    </p>
+                    <p>
+                        <strong>Local de Publicação:</strong> {{ livro.local_publicacao.nome }}
                     </p>
                     <p>
                         <strong>Quantidade de Exemplares:</strong> {{ exemplares.count }}

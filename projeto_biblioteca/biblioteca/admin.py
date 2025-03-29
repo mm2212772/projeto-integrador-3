@@ -9,6 +9,15 @@ class CddAdmin(admin.ModelAdmin):
     ordering = ("id",)
     list_per_page = 20
 
+class Local_PublicacaoAdmin(admin.ModelAdmin):
+    list_display = ("id", "nome")
+    ordering = ("id",)
+    list_per_page = 20
+
+class EditoraAdmin(admin.ModelAdmin):
+    list_display = ("id", "nome")
+    ordering = ("id",)
+    list_per_page = 20
 
 class LivroTemAutorInline(admin.TabularInline):
     model = models.LivroTemAutor  # Modelo de relacionamento
@@ -16,10 +25,15 @@ class LivroTemAutorInline(admin.TabularInline):
 
 
 class AutorAdmin(admin.ModelAdmin):
-    list_display = ("id", "nome")
+    list_display = ("id", "nome", "codigo_autor")
     list_per_page = 20
     ordering = ("id",)
 
+
+class LeitorAdmin(admin.ModelAdmin):
+    list_display = ("id", "nome", "ra")
+    list_per_page = 20
+    ordering = ("id",)
 
 class LivroForm(forms.ModelForm):
     quantidade_exemplares = forms.IntegerField(
@@ -28,14 +42,14 @@ class LivroForm(forms.ModelForm):
 
     class Meta:
         model = models.Livro
-        fields = ["nome", "ano", "edicao", "volume"]
+        fields = ["titulo", "ano", "edicao"]
 
 
 class LivroAdmin(admin.ModelAdmin):
     form = LivroForm
-    list_display = ("id", "nome", "ano", "edicao")
-    search_fields = ("nome",)
-    list_filter = ("nome", "ano")
+    list_display = ("id", "titulo", "subtitulo", "ano", "edicao", "iniciais_titulo", "isbn")
+    search_fields = ("titulo","isbn")
+    list_filter = ("titulo", "ano")
     ordering = ("id",)
     list_per_page = 20
     inlines = [LivroTemAutorInline]
@@ -63,7 +77,7 @@ class LivroTemAutorAdmin(admin.ModelAdmin):
 
 
 class ExemplarAdmin(admin.ModelAdmin):
-    list_display = ("id", "livro")
+    list_display = ("id", "livro", "tombo", "numero_exemplar", "baixa")
     ordering = ("id",)
     list_per_page = 20
 
@@ -87,3 +101,6 @@ admin.site.register(models.Livro, LivroAdmin)
 admin.site.register(models.LivroTemAutor, LivroTemAutorAdmin)
 admin.site.register(models.Emprestimo, EmprestimoAdmin)
 admin.site.register(models.Exemplar, ExemplarAdmin)
+admin.site.register(models.Local_Publicacao, Local_PublicacaoAdmin)
+admin.site.register(models.Editora, EditoraAdmin)
+admin.site.register(models.Leitor, LeitorAdmin)
