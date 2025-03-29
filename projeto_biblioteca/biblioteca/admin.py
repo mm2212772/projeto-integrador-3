@@ -141,7 +141,7 @@ class ExemplarAdmin(admin.ModelAdmin):
     list_display_links = ("id", "livro", "tombo")
     list_editable = ("baixa","etiqueta_gerada")        
     search_fields = ("id", "livro__titulo","numero_exemplar")  
-    ordering = ("id",)      
+    ordering = ("-id",)      
     autocomplete_fields = ["livro"] 
     list_per_page = 30
     fieldsets = (
@@ -246,8 +246,9 @@ class LeitorAdmin(admin.ModelAdmin):
 class LivroAdmin(admin.ModelAdmin):
     list_display = ("id", "titulo", "subtitulo", "ano", "edicao", "iniciais_titulo", "isbn")
     search_fields = ("titulo","isbn")
+    fields = ("isbn", "titulo", "subtitulo", "edicao", "iniciais_titulo", "cdd", "editora", "local_publicacao", "ano")
     list_display_links = ("id", "titulo", "subtitulo")
-    ordering = ("id",)
+    ordering = ("-id",)
     list_per_page = 30
     autocomplete_fields = ["cdd", "editora", "local_publicacao"] 
     inlines = [LivroTemAutorInline]    

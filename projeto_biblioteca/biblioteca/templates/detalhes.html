@@ -45,7 +45,7 @@
                         <strong>Autores:</strong>
                         {% if  livro.autores.all %}
                         {% for autor in livro.autores.all  %}
-                        {{autor.autor.nome}} 
+                        {{autor.autor.codigo_autor}} - {{autor.autor.nome}} 
                             {% if not forloop.last %}
                             ; 
                             {% endif %}

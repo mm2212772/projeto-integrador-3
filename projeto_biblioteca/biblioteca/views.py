@@ -3,10 +3,9 @@ from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.db.models import Count, Q
-from django.db.utils import IntegrityError
 from django.shortcuts import get_object_or_404, redirect, render
 
-from . import forms, models, tratamento_dados
+from . import models
 
 
 def inicial(request):
@@ -44,6 +43,7 @@ def detalhes(request, livro_id):
         "autores": autores,
         "exemplares_disponiveis": exemplares_disponiveis,
     }
+    
     return render(request, "detalhes.html", context)
 
 

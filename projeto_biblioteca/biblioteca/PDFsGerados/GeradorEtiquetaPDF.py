@@ -9,7 +9,7 @@ class GerarEtiquetaPDF:
        self._valor_vertical = 10
        self._base_horizontal = 9  
        self.exemplares = exemplares
-       self._TAMANHO_FONTE = 10.2
+       self._TAMANHO_FONTE = 9
        self._TAMANHO_CORTE = 37
     
     def criar_pdf(self):
@@ -39,20 +39,20 @@ class GerarEtiquetaPDF:
     def _etiqueta_externa(self, exemplar):
         self._pdf.set_xy(self._base_horizontal, self._valor_vertical)
         # Adiciona texto com os dados do tombo
-        self._pdf.multi_cell(70, 4.5, text=self._texto_externa, align='C')
+        self._pdf.multi_cell(65, 4.5, text=self._texto_externa, align='C')
         # Ajusta o id para o formato correto
         id = str(exemplar.id).rjust(10,"0")       
         # Adiciona código numérico do código de barras
-        self._pdf.code39('*'+id+'*', x=self._base_horizontal + 16, y=self._valor_vertical+11, w=0.6, h=7)
+        self._pdf.code39('*'+id+'*', x=self._base_horizontal + 13, y=self._valor_vertical+11, w=0.6, h=7)
         # Reposiciona o ponteiro de inserção de texto
         self._pdf.set_xy(self._base_horizontal, self._valor_vertical+18)
         self._pdf.set_font_size(8)
-        self._pdf.cell(70, 5, text=id, align='C')      
+        self._pdf.cell(65, 5, text=id, align='C')      
         self._pdf.set_font_size(self._TAMANHO_FONTE)
    
     def _etiqueta_interna(self):
-        self._pdf.set_xy(self._base_horizontal + 70, self._valor_vertical)
-        self._pdf.multi_cell(25, 3.5, text=self._texto_interna, align='C')
+        self._pdf.set_xy(self._base_horizontal + 65, self._valor_vertical)
+        self._pdf.multi_cell(30, 3.5, text=self._texto_interna, align='C')
 
     def _corte(self, string: str, tamanho: int):
         # Retorna um texto cortado em um comprimento máximo
@@ -74,7 +74,8 @@ class GerarEtiquetaPDF:
                + str(exemplar.livro.iniciais_titulo)
                + "\nex. "+ str(exemplar.numero_exemplar)
                + '\n'
-               + str(exemplar.tombo))     
+              #  + str(exemplar.tombo))     
+               + "Crav.2025.102931")     
    
    
     def _criar_pdf(self):

@@ -72,15 +72,15 @@ class Livro(models.Model):
             nome+=" : "+self.subtitulo
         return nome
 
-    titulo = models.CharField(max_length=100)
+    titulo = models.CharField(max_length=100, verbose_name="Título")
     subtitulo = models.CharField(max_length=100, blank=True)
     ano = models.IntegerField(blank=True, null=True)
-    edicao = models.IntegerField(blank=True, null=True)    
-    isbn = models.CharField(max_length=13, blank=True)
-    iniciais_titulo=models.CharField(max_length=2)
-    cdd = models.ForeignKey(Cdd, on_delete=models.SET_NULL, blank=True, null=True)
+    edicao = models.IntegerField(blank=True, null=True, verbose_name="Edição")    
+    isbn = models.CharField(max_length=13, blank=True, verbose_name="ISBN")
+    iniciais_titulo=models.CharField(max_length=2, verbose_name="Iniciais do Título")
+    cdd = models.ForeignKey(Cdd, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="CDD")
     editora = models.ForeignKey(Editora, on_delete=models.SET_NULL, blank=True, null=True)
-    local_publicacao = models.ForeignKey(Local_Publicacao, on_delete=models.SET_NULL, blank=True, null=True)
+    local_publicacao = models.ForeignKey(Local_Publicacao, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Local de Publicação")
 
 class Exemplar(models.Model):
     class Meta:
