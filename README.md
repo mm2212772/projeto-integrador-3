@@ -25,7 +25,7 @@ git clone https://github.com/mm2212772/projeto-integrador-3.git
 
 ```bash
 
-cd projeto-integrador-2
+cd projeto-integrador-3
 ```
 
 ## Passo 2: Criar um Ambiente Virtual
