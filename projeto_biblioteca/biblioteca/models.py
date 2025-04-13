@@ -47,6 +47,7 @@ class Leitor(models.Model):
     nome = models.CharField(max_length=100)
     ra = models.CharField(max_length=20, unique=True)
     ativo = models.BooleanField(default=True)
+    turma = models.CharField(max_length=10, blank=True, null=True)
     def __str__(self):
         return f"{self.nome}"
 

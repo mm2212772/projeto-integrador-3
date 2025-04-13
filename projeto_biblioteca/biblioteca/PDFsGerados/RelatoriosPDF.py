@@ -38,10 +38,6 @@ class Relatorio():
         titulo_style = styles['Title']
         data_atual = date.today().strftime("%d/%m/%Y")
         return Paragraph(f"{titulo} - {data_atual}", titulo_style)
-        
-        
-
-
 
 class RelatorioDevedores(Relatorio):           
     def Gerar(self, response):        
@@ -76,8 +72,10 @@ class RelatorioDevedores(Relatorio):
         # Preenchendo os dados
         for emprestimo in emprestimos:
             dias_atraso = (date.today() - emprestimo.data_devolucao).days
+            turma = "" if emprestimo.leitor.turma is None else f" - {emprestimo.leitor.turma}"
+            nome_turma = f"{emprestimo.leitor.nome}{turma}"
             dados.append([
-                Paragraph(emprestimo.leitor.nome, estilo_normal),
+                Paragraph(nome_turma , estilo_normal),
                 Paragraph(emprestimo.exemplar.livro.titulo, estilo_normal),
                 emprestimo.data_emprestimo.strftime("%d/%m/%Y"),
                 emprestimo.data_devolucao.strftime("%d/%m/%Y"),
@@ -99,7 +97,6 @@ class RelatorioDevedores(Relatorio):
 
         elementos = [titulo, Spacer(1, 10), table]
         self._pdf.build(elementos)
-
         
 class RelatorioLeitores(Relatorio):
     def Gerar(self, response):
@@ -110,9 +107,11 @@ class RelatorioLeitores(Relatorio):
         titulo = self._titulo_pdf("Relatório de Empréstimos por Leitor")
         
         # Preenchendo os dados
-        for leitor in leitores:            
+        for leitor in leitores:
+            turma = "" if leitor.turma is None else f" - {leitor.turma}"
+            nome_turma = f"{leitor.nome}{turma}"            
             dados.append([
-                leitor.nome,
+                nome_turma,
                 leitor.quantidade_emprestada,                               
             ])
         col_widths = [530 / len(dados[0])] * len(dados[0])   
@@ -160,9 +159,11 @@ class RelatorioEmprestimosMensal(Relatorio):
         for emprestimo in emprestimos:            
             obra = f"(ID: {emprestimo.exemplar.id}) {emprestimo.exemplar.livro.titulo}"
             data = emprestimo.data_devolucao.strftime('%d/%m/%Y')
+            turma = "" if emprestimo.leitor.turma is None else f" - {emprestimo.leitor.turma}"
+            nome_turma = f"{emprestimo.leitor.nome}{turma}"            
             devolvido = "Sim" if emprestimo.devolvido else "Não"
             dados.append([
-                Paragraph(emprestimo.leitor.nome, estilo_normal),
+                Paragraph(nome_turma, estilo_normal),
                 Paragraph(obra, estilo_normal),                
                 data,
                 devolvido,                            
@@ -223,9 +224,11 @@ class RelatorioEmprestimosAnual(Relatorio):
         for emprestimo in emprestimos:            
             obra_html = f"(ID: {emprestimo.exemplar.id}) {emprestimo.exemplar.livro.titulo}"
             data = emprestimo.data_devolucao.strftime('%d/%m/%Y')
+            turma = "" if emprestimo.leitor.turma is None else f" - {emprestimo.leitor.turma}"
+            nome_turma = f"{emprestimo.leitor.nome}{turma}"            
             devolvido = "Sim" if emprestimo.devolvido else "Não"
             dados.append([
-                Paragraph(emprestimo.leitor.nome, estilo_normal),
+                Paragraph(nome_turma, estilo_normal),
                 Paragraph(obra_html, estilo_normal),                
                 data,
                 devolvido,                            
